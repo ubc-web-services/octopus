@@ -1,0 +1,63 @@
+# octopus.libraries.yml
+#testing autocomplete library
+autocomplete:
+  css:
+    theme:
+      css/drupal.autocomplete.css: {}
+  js:
+    js/lib/autocomplete/autocomplete.min.js: { minified: true }
+# Global Styles & Scripts
+global:
+  css:
+    theme:
+      css/clf.drupal.css: { }
+  js:
+    js/ubc.all.js: { minified: true, rel: preload, as: script }
+    js/octopus.misc.js: { }
+    # js/autocomplete.example.js: { }
+  dependencies:
+    - core/jquery
+    # - octopus/autocomplete
+
+# CLF Local Version
+clf-local:
+  version: 8.0.0
+  css:
+    theme:
+      css/clf.min.css: { minified: true }
+      css/clf.add.css: {}
+
+# CLF CDN Version
+clf-cdn:
+  version: 8.0.0
+  css:
+    base:
+      https://cdn.ubc.ca/clf/8.0.0/css/clf.min.css: { type: external, minified: true }
+
+# Local Task Files
+local-tasks:
+  css:
+    theme:
+      css/drupal.local.tasks.css: {}
+
+# System message Files
+system-message:
+  css:
+    theme:
+      css/drupal.system.message.css: {}
+
+# Slide-in Navigation
+clf-slidein-navigation:
+  css:
+    theme:
+      css/navigation.slidein.css: {}
+  js:
+    js/navigation.slidein.js: {}
+  dependencies:
+    - core/drupal
+
+# Maintenance Page
+maintenance-page:
+  css:
+    theme:
+      css/drupal.maintenance.page.css: {}

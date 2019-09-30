@@ -1,0 +1,42 @@
+octopus.micro:
+  label: micro
+  mediaQuery: '(max-width: 639px)'
+  weight: 5
+  multipliers:
+    - 1x
+octopus.sm:
+  label: small
+  mediaQuery: 'all and (min-width: 640px) and (max-width: 959px)'
+  weight: 4
+  multipliers:
+    - 1x
+octopus.md:
+  label: medium
+  mediaQuery: 'all and (min-width: 960px) and (max-width: 1279px)'
+  weight: 3
+  multipliers:
+    - 1x
+octopus.lg:
+  label: large
+  mediaQuery: 'all and (min-width: 1280px) and (max-width: 1719px)'
+  weight: 2
+  multipliers:
+    - 1x
+octopus.xl:
+  label: extra large
+  mediaQuery: 'all and (min-width: 1720px) and (max-width: 2399px)'
+  weight: 1
+  multipliers:
+    - 1x
+octopus.xxl:
+  label: 2X large
+  mediaQuery: 'all and (min-width: 2400px) and (max-width: 3199px)'
+  weight: 0
+  multipliers:
+    - 1x
+octopus.xxxl:
+  label: 3X large
+  mediaQuery: 'all and (min-width: 3200px)'
+  weight: 0
+  multipliers:
+    - 1x

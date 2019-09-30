@@ -1,0 +1,5 @@
+# Schema for the configuration files of the octopus theme.
+
+octopus.settings:
+  type: theme_settings
+  label: 'octopus settings'

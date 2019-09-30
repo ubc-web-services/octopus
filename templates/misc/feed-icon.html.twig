@@ -1,0 +1,17 @@
+{#
+/**
+ * @file
+ * Theme override for a feed icon.
+ *
+ * Available variables:
+ * - url: An internal system path or a fully qualified external URL of the feed.
+ * - attributes: Remaining HTML attributes for the feed link.
+ *   - title: A descriptive title of the feed link.
+ *   - class: HTML classes to be applied to the feed link.
+ */
+#}
+<a href="{{ url }}"{{ attributes.addClass('feed-icon', 'mt-6', 'text-sm', 'unit-button', 'unit-button--has-icon-right', 'unit-button--has-separator-right', 'unit-button--light', 'lg--text-base') }}>
+  {{ 'Subscribe to @title'|t({'@title': title}) }} <svg role="presentation" class="unit-button__icon" viewBox="0 0 64 64">
+    <use xlink:href="#icon-rss"></use>
+  </svg>
+</a>

@@ -1,0 +1,74 @@
+/**
+ * @file
+ * Styles for system messages
+ */
+
+ .message {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.message--success {
+  background-color: #57edae;
+}
+
+.message--warning {
+  background-color: #f8e605;
+}
+
+.message--error {
+  background-color: #ff7c7c;
+}
+
+.message--status {
+  background-color: #40b4e5;
+}
+
+.message__close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.message__close:hover {
+  background-color: rgba(255, 255, 255, .5);
+  text-decoration: none;
+  color: #000;
+}
+
+.message__icon {
+  display: inline-block;
+  height: 3rem;
+  width: 3rem;
+  color: #002145;
+  margin-right: 1rem;
+  flex: none;
+}
+
+@media (min-width: 1720px:) {
+  .message {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+  }
+
+  .message__icon {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 2rem;
+  }
+}

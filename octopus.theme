@@ -1,0 +1,524 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the octopus theme.
+ */
+
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Render\Markup;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function octopus_page_attachments_alter(array &$page) {
+  $use_local_clf = theme_get_setting('clf_local');
+
+  // Switch between local and CDN-hosted CLF libraries.
+  if ($use_local_clf) {
+    $page['#attached']['library'][] = 'octopus/clf-local';
+  }
+  else {
+    $page['#attached']['library'][] = 'octopus/clf-cdn';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ *
+ * Adds body classes if certain regions have content.
+ */
+function octopus_preprocess_html(&$variables) {
+
+  // Add meta tags and links.
+  $viewport = [
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => [
+      'name' => 'viewport',
+      'content' => 'width=device-width, initial-scale=1',
+    ],
+  ];
+  $theme_color = [
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => [
+      'name' => 'theme-color',
+      'content' => '#002145',
+    ],
+  ];
+  $msapplication_config = [
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => [
+      'name' => 'msapplication-config',
+      'content' => 'ieconfig.xml',
+    ],
+  ];
+  $manifest = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'manifest',
+      'href' => 'site.webmanifest',
+    ],
+  ];
+  /*   $cdn_prefetch = [
+  '#type' => 'html_tag',
+  '#tag' => 'link',
+  '#attributes' => [
+  'href' => 'https://cdn.ubc.ca',
+  'rel' => 'dns-prefetch',
+  ],
+  ]; */
+  /*   $cdn_preconnect = [
+  '#type' => 'html_tag',
+  '#tag' => 'link',
+  '#attributes' => [
+  'href' => 'https://cdn.ubc.ca',
+  'rel' => 'preconnect',
+  ],
+  ]; */
+  $google_fonts_preconnect = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'preconnect',
+      'href' => 'https://themes.googleusercontent.com/',
+    ],
+  ];
+  $google_fonts_preconnect2 = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'preconnect',
+      'href' => 'https://fonts.gstatic.com/',
+    ],
+  ];
+  $google_fonts_preload = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'preload',
+      'href' => 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=optional',
+      'as' => 'font',
+      'crossorigin' => 'anonymous',
+    ],
+  ];
+  /*
+  * https://caniuse.com/#search=preload
+  * Firefox and IE don't understand preload yet, so we include the link the old * way
+  */
+  $google_fonts = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'stylesheet',
+      'href' => 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=optional',
+    ],
+  ];
+  $apple_touch_icon = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'apple-touch-icon',
+      'href' => 'img/icon.png',
+    ],
+  ];
+
+  $variables['page']['#attached']['html_head'][] = [$viewport, 'viewport'];
+  $variables['page']['#attached']['html_head'][] = [$theme_color, 'theme-color'];
+  $variables['page']['#attached']['html_head'][] = [$msapplication_config, 'msapplication-config'];
+  $variables['page']['#attached']['html_head'][] = [$manifest, 'manifest'];
+  // $variables['page']['#attached']['html_head'][] =
+  // [$cdn_prefetch, 'cdn-prefetch'];.
+  $variables['page']['#attached']['html_head'][] = [$google_fonts_preconnect, 'google-fonts-preconnect'];
+  $variables['page']['#attached']['html_head'][] = [$google_fonts_preconnect2, 'google-fonts-preconnect2'];
+  $variables['page']['#attached']['html_head'][] = [$google_fonts_preload, 'google-fonts-preload'];
+  $variables['page']['#attached']['html_head'][] = [$google_fonts, 'google-fonts'];
+  $variables['page']['#attached']['html_head'][] = [$apple_touch_icon, 'apple-touch-icon'];
+
+  // Add a NOFOLLOW tag if the site is not meant for production.
+  if (theme_get_setting('clf_noindex') == TRUE) {
+    $nofollow = [
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'robots',
+        'content' => 'noindex, nofollow',
+      ],
+    ];
+    $variables['page']['#attached']['html_head'][] = [$nofollow, 'nofollow'];
+  }
+
+  // Add Google and Bing verification Tags.
+  $googleVerificationCode = theme_get_setting('clf_google_verify');
+  if (!empty($googleVerificationCode)) {
+    $googleverify = [
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'google-site-verification',
+        'content' => $googleVerificationCode,
+      ],
+    ];
+    $variables['page']['#attached']['html_head'][] = [$googleverify, 'googleverify'];
+  }
+
+  $bingVerificationCode = theme_get_setting('clf_bing_verify');
+  if (!empty($bingVerificationCode)) {
+    $bingverify = [
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'msvalidate.01',
+        'content' => $bingVerificationCode,
+      ],
+    ];
+    $variables['page']['#attached']['html_head'][] = [$bingverify, 'bingverify'];
+  }
+
+  // Add information about the number of sidebars.
+  if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'layout-two-sidebars';
+  }
+  elseif (!empty($variables['page']['sidebar_first'])) {
+    $variables['attributes']['class'][] = 'layout-one-sidebar';
+    $variables['attributes']['class'][] = 'layout-sidebar-first';
+  }
+  elseif (!empty($variables['page']['sidebar_second'])) {
+    $variables['attributes']['class'][] = 'layout-one-sidebar';
+    $variables['attributes']['class'][] = 'layout-sidebar-second';
+  }
+  else {
+    $variables['attributes']['class'][] = 'layout-no-sidebars';
+  }
+  if (!empty($variables['page']['featured'])) {
+    $variables['attributes']['class'][] = 'featured';
+  }
+
+  // Add inline banner colour.
+  $unit_color_option = theme_get_setting('clf_theme_unit_colour');
+  if (!empty($unit_color_option)) {
+    $variables['page']['#attached']['html_head'][] = [
+      [
+        '#tag' => 'style',
+        '#value' => '#ubc7-unit { background-color: #' . $unit_color_option . ' !important; }',
+      ],
+      'unit-colour-css',
+    ];
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+function octopus_preprocess_page(&$variables) {
+  // Since the title and the shortcut link are both block level elements,
+  // positioning them next to each other is much simpler with a wrapper div.
+  if (!empty($variables['title_suffix']['add_or_remove_shortcut']) && $variables['title']) {
+    // Add a wrapper div using the title_prefix and title_suffix render
+    // elements.
+    $variables['title_prefix']['shortcut_wrapper'] = [
+      '#markup' => '<div class="shortcut-wrapper clearfix">',
+      '#weight' => 100,
+    ];
+    $variables['title_suffix']['shortcut_wrapper'] = [
+      '#markup' => '</div>',
+      '#weight' => -99,
+    ];
+    // Make sure the shortcut link is the first item in title_suffix.
+    $variables['title_suffix']['add_or_remove_shortcut']['#weight'] = -100;
+  }
+
+  // Add in our custom theme variables so we can use them in page.twig
+  // general options.
+  $variables['layout_option'] = theme_get_setting('clf_layout');
+  $variables['campus_option'] = theme_get_setting('clf_unit_campus');
+  $variables['faculty_option'] = theme_get_setting('clf_faculty') ? FALSE : TRUE;
+  $variables['faculty_name'] = theme_get_setting('clf_faculty_name');
+  $variables['unit_name'] = theme_get_setting('clf_unitname');
+
+  // Search options.
+  $variables['searchlabel_option'] = theme_get_setting('clf_searchlabel');
+  $variables['searchdomain_option'] = theme_get_setting('clf_searchdomain');
+
+  // Navigation options.
+  if (theme_get_setting('clf_navigation_placement') == 'default') {
+    $variables['navigation_placement_default'] = TRUE;
+    $variables['navigation_placement'] = FALSE;
+  }
+  else {
+    $variables['navigation_placement_drawer'] = TRUE;
+    $variables['navigation_placement'] = theme_get_setting('clf_navigation_placement');
+  }
+
+  // Footer options.
+  $variables['address_option'] = theme_get_setting('clf_streetaddr');
+  $variables['locality_option'] = theme_get_setting('clf_locality');
+  $variables['region_option'] = theme_get_setting('clf_region');
+  $variables['country_option'] = theme_get_setting('clf_country');
+  $variables['postal_option'] = theme_get_setting('clf_postal');
+  $variables['phone_option'] = theme_get_setting('clf_telephone');
+  $variables['fax_option'] = theme_get_setting('clf_fax');
+  $variables['email_option'] = theme_get_setting('clf_email');
+  $variables['website_option'] = theme_get_setting('clf_website');
+
+  // Social media options.
+  $variables['facebook_option'] = theme_get_setting('clf_social_facebook');
+  $variables['instagram_option'] = theme_get_setting('clf_social_instagram');
+  $variables['linkedin_option'] = theme_get_setting('clf_social_linkedin');
+  $variables['twitter_option'] = theme_get_setting('clf_social_twitter');
+  $variables['youtube_option'] = theme_get_setting('clf_social_youtube');
+
+  // Svg options.
+  $variables['icon_cart'] = theme_get_setting('svg_icon_cart') ? TRUE : FALSE;
+  $variables['icon_clock'] = theme_get_setting('svg_icon_clock') ? TRUE : FALSE;
+  $variables['icon_discussion'] = theme_get_setting('svg_icon_discussion') ? TRUE : FALSE;
+  $variables['icon_facebook'] = theme_get_setting('svg_icon_facebook') ? TRUE : FALSE;
+  $variables['icon_home'] = theme_get_setting('svg_icon_home') ? TRUE : FALSE;
+  $variables['icon_instagram'] = theme_get_setting('svg_icon_instagram') ? TRUE : FALSE;
+  $variables['icon_linkedin'] = theme_get_setting('svg_icon_linkedin') ? TRUE : FALSE;
+  $variables['icon_location'] = theme_get_setting('svg_icon_location') ? TRUE : FALSE;
+  $variables['icon_mail'] = theme_get_setting('svg_icon_mail') ? TRUE : FALSE;
+  $variables['icon_pencil'] = theme_get_setting('svg_icon_pencil') ? TRUE : FALSE;
+  $variables['icon_phone'] = theme_get_setting('svg_icon_phone') ? TRUE : FALSE;
+  $variables['icon_play'] = theme_get_setting('svg_icon_play') ? TRUE : FALSE;
+  $variables['icon_settings'] = theme_get_setting('svg_icon_settings') ? TRUE : FALSE;
+  $variables['icon_speech'] = theme_get_setting('svg_icon_speech') ? TRUE : FALSE;
+  $variables['icon_star'] = theme_get_setting('svg_icon_star') ? TRUE : FALSE;
+  $variables['icon_twitter'] = theme_get_setting('svg_icon_twitter') ? TRUE : FALSE;
+  $variables['icon_user'] = theme_get_setting('svg_icon_user') ? TRUE : FALSE;
+  $variables['icon_vimeo'] = theme_get_setting('svg_icon_vimeo') ? TRUE : FALSE;
+  $variables['icon_youtube'] = theme_get_setting('svg_icon_youtube') ? TRUE : FALSE;
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for maintenance-page.html.twig.
+ */
+function octopus_preprocess_maintenance_page(&$variables) {
+  // By default, site_name is set to Drupal if no db connection is available
+  // or during site installation. Setting site_name to an empty string makes
+  // the site and update pages look cleaner.
+  // @see template_preprocess_maintenance_page
+  if (!$variables['db_is_active']) {
+    $variables['site_name'] = '';
+  }
+
+  // Octopus has custom styling for the maintenance page.
+  $variables['#attached']['library'][] = 'octopus/maintenance_page';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for node.html.twig.
+ */
+function octopus_preprocess_node(&$variables) {
+  // Remove the "Add new comment" link on teasers or when the comment form is
+  // displayed on the page.
+  if ($variables['teaser'] || !empty($variables['content']['comments']['comment_form'])) {
+    unset($variables['content']['links']['comment']['#links']['comment-add']);
+  }
+
+  // Add node--node_type--view_mode.html.twig suggestions.
+  $variables['theme_hook_suggestions'][] = 'node__' . $variables['elements']['#node']->bundle() . '__' . $variables['view_mode'];
+
+  // Add node--view_mode.html.twig suggestions.
+  $variables['theme_hook_suggestions'][] = 'node__' . $variables['view_mode'];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for block.html.twig.
+ */
+function octopus_preprocess_block(&$variables) {
+  // Add a clearfix class to system branding blocks.
+  if ($variables['plugin_id'] == 'system_branding_block') {
+    $variables['attributes']['class'][] = 'clearfix';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for field.html.twig.
+ *
+ * @see template_preprocess_field()
+ */
+function octopus_preprocess_field(&$variables) {
+  $element = $variables['element'];
+  if ($element['#field_type'] == 'taxonomy_term_reference') {
+    $variables['title_attributes']['class'][] = 'field-label';
+    if ($variables['element']['#label_display'] == 'inline') {
+      $variables['title_attributes']['class'][] = 'inline';
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter() for forms.
+ */
+function octopus_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['actions']['submit']['#attributes']['class'][] = 'unit-button unit-button--dark text-sm';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for search_form.
+ */
+function octopus_form_search_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['keys']['#attributes']['placeholder'] = t('Search...');
+  $form['actions']['edit-submit']['#attributes']['class'][] = 'unit-button unit-button--dark text-sm';
+  $form['actions']['submit--2']['#attributes']['class'][] = 'unit-button unit-button--dark text-sm';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for search_block_form.
+ */
+function octopus_form_search_block_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['keys']['#theme_wrappers'] = NULL;
+  $form['keys']['#prefix'] = '<div class="flex">';
+  $form['keys']['#attributes']['placeholder'] = t('Search...');
+  $form['keys']['#attributes']['class'][] = 'flex-1';
+  $form['actions']['#theme_wrappers'] = NULL;
+  $form['actions']['submit']['#attributes']['class'][] = 'flex-no-grow';
+  $form['actions']['#suffix'] = '</div>';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_login_form.
+ */
+function octopus_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['actions']['#theme_wrappers'] = NULL;
+  $form['actions']['submit']['#attributes']['class'][] = 'mt-6';
+  $form['actions']['submit']['#value'] = t('Drupal login');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function octopus_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-content-announcement-block-1') {
+    $form['actions']['submit']['#attributes']['class'][] = 'mt-6';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for page.html.twig.
+ */
+function octopus_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  // Get current node.
+  $node = \Drupal::request()->attributes->get('node');
+  if ($node) {
+    // Add the Node Type as a template suggestion.
+    if ($node->getType()) {
+      $suggestions[] = 'page__node_type__' . $node->getType();
+    }
+  }
+  // check the system path
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  switch ($route_name) {
+    case 'system.401':
+      // Unauthorized Access.
+      $error = 401;
+      break;
+
+    case 'system.403':
+      // Access Denied.
+      $error = 403;
+      break;
+
+    case 'system.404':
+      // Page Not Found.
+      $error = 404;
+      break;
+  }
+  // Add the Error Type as a template suggestion.
+  if (isset($error)) {
+    $suggestions[] = 'page__' . $error;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_field_alter().
+ * Warning that this may break theme_debug for twig template -field- suggestions
+ */
+function octopus_theme_suggestions_field_alter(&$hooks, $variables){
+  // Get the element names passed on when a page is rendered.
+  $name = $variables['element']['#field_name'];
+  // Build the string layout for the fields.
+  // <entity type>:<bundle name>:<view mode>:<field name>
+  $bare_hooks = [
+      'node:homepage:default:field_home_tab_titles',
+      'node:homepage:default:field_home_tab_titles',
+      'node:homepage:featured_content:field_home_feature_image',
+      'node:homepage:featured_content:field_home_feature_image_link',
+      'node:homepage:featured_content:field_home_feature_title',
+      'node:homepage:featured_content:field_home_feature_title_second',
+      'node:ubc_announcement:card_horizontal:field_announcement_feature_image',
+      'node:ubc_announcement:featured_content:field_announcement_image_teaser',
+      'node:ubc_announcement:featured_content:field_announcement_teaser_second',
+      'node:ubc_event:default:field_event_link',
+      'node:ubc_event:card_horizontal:field_event_image',
+      'node:ubc_landing_page:featured_content:field_landing_image_teaser',
+      'node:ubc_landing_page:featured_content:field_landing_teaser_second',
+      'media:image:full:field_media_image',
+  ];
+  // Build the actual var structure from second parameter
+  $hook = implode(':', [
+      $variables['element']['#entity_type'],
+      $variables['element']['#bundle'],
+      $variables['element']['#view_mode'],
+      $variables['element']['#field_name'],
+  ]);
+  // If the strings match, assign a field template with no wrapper markup.
+  if (in_array($hook, $bare_hooks, TRUE)) {
+      $hooks[] = 'field__no_wrapper';
+  }
+}
+
+/**
+ * Implements hook_preprocess_breadcrumb().
+ */
+function octopus_preprocess_breadcrumb(&$variables) {
+  if (($node = \Drupal::routeMatch()->getParameter('node')) && $variables['breadcrumb']) {
+    $variables['breadcrumb'][] = [
+      'text' => $node->getTitle()
+    ];
+    // need to cache via path
+    $variables['#cache']['contexts'][] = 'url.path';
+    $variables['#cache']['tags'][] = "node:{$node->nid->value}";
+  }
+}
+
+/**
+ * Implements template_preprocess_links()
+ */
+function octopus_preprocess_links(&$variables) {
+  $variables['links']['node-readmore']['link']['#options']['attributes']['class'][] = 'unit-button unit-button--simple unit-button--has-icon-right unit-button--animate-icon mt-4';
+  $variables['links']['node-readmore']['link']['#title'] = Markup::create('Explore <svg role="presentation" class="unit-button__icon" viewBox="0 0 64 64"><use xlink:href="#icon-arrow-circle"></use></svg>');
+}
+
+/**
+* Implements hook_theme_suggestions_HOOK().
+*
+* To correct this core issue:
+* https://www.drupal.org/project/drupal/issues/2839945
+*/
+function octopus_theme_suggestions_views_view(array $variables) {
+  $suggestions = [];
+  $view = $variables['view'];
+
+  $suggestions[] = 'views_view__' . $view->id();
+  $suggestions[] = 'views_view__' . $view->current_display;
+  $suggestions[] = 'views_view__' . $view->id() . '__' . $view->current_display;
+
+  return $suggestions;
+  // theme view more link
+  $variables['more']['#options']['attributes']['class'][] = 'text-sm unit-button unit-button--light';
+}
+
+/**
+ * Implements template_preprocess_image().
+ */
+function octopus_preprocess_image(&$variables) {
+  //if ($variables['style_name'] == 'max_1300x1300') {
+    // Set lazy attribute.
+    $variables['attributes']['loading'][] = 'lazy';
+  //}
+}

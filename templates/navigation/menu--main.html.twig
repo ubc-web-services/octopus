@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *
+ * @ingroup themeable
+ */
+#}
+{% import _self as menus %}
+{#
+  We call a macro which calls itself to render the full tree.
+  @see http://twig.sensiolabs.org/doc/tags/macro.html
+#}
+{{ menus.menu_links(items, attributes, 0) }}
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    <ul{{ attributes.addClass(menu_level == 0 ? 'nav subnav__links').addClass(menu_level > 0 ? 'js-reveal__target subnav--nested').removeClass(menu_level > 0 ? 'nav subnav__links').setAttribute(menu_level > 0 ? 'hidden', true) }}>
+    {% for item in items %}
+      {%
+        set classes = [
+          'navbar-item',
+          item.is_expanded ? 'menu-item--expanded',
+          item.is_expanded ? 'dropdown',
+          item.is_collapsed ? 'menu-item--collapsed',
+          item.in_active_trail ? 'menu-item--active-trail',
+          item.in_active_trail ? 'active',
+        ]
+      %}
+      {% if menu_level == 0 and item.is_expanded %}
+        <li{{ item.attributes.addClass(classes, 'expanded', 'dropdown').removeClass('menu-item') }}>
+          <div class="nav--split js-reveal__parent">
+            {{ link(item.title, item.url, item.attributes.addClass('navlink--secondary has-children')) }}
+            <button class="js-reveal__trigger" aria-label="Dropdown toggle"><svg aria-hidden="true" class="inline-block h-4 w-4 -ml-2 -mt-1 text-ubc-blue hover--text-ubc-blue-cobalt fill-current stroke-none"><use xlink:href="#icon-plus"></use></svg></button></div>
+      {% else %}
+        <li{{ item.attributes.addClass(classes, 'item').removeClass('menu-item') }}>
+          {{ link(item.title, item.url, {'class': ['navbar-link', 'navlink--secondary']}) }}
+      {% endif %}
+      {% if item.below %}
+        {{ menus.menu_links(item.below, attributes.removeClass('nav', 'navbar-nav'), menu_level + 1) }}
+      {% endif %}
+    </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
