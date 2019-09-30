@@ -40,3 +40,6 @@ xmlrpc.php
 
 # System files
 .DS_Store
+
+# Node packages
+/node_modules
