@@ -22,6 +22,7 @@ support is required, it must be added separately or
 ([galactus](https://github.com/ubc-web-services/galactus)), an earlier
 version of the CLF, can be used.
 
+<!---
 # Contribution
 
 CSS changes need to be made with SASS through node-sass.
@@ -47,3 +48,4 @@ You can watch changes to your SASS files with this command:
 ```
 yarn run watch-css
 ```
+-->
