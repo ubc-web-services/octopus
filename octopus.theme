@@ -191,6 +191,7 @@ function octopus_preprocess_html(&$variables) {
   else {
     $variables['attributes']['class'][] = 'layout-no-sidebars';
   }
+
   if (!empty($variables['page']['featured'])) {
     $variables['attributes']['class'][] = 'featured';
   }
@@ -206,7 +207,6 @@ function octopus_preprocess_html(&$variables) {
       'unit-colour-css',
     ];
   }
-
 }
 
 /**
@@ -365,6 +365,7 @@ function octopus_form_search_form_alter(&$form, FormStateInterface $form_state, 
   $form['keys']['#attributes']['placeholder'] = t('Search...');
   $form['actions']['edit-submit']['#attributes']['class'][] = 'unit-button unit-button--dark text-sm';
   $form['actions']['submit--2']['#attributes']['class'][] = 'unit-button unit-button--dark text-sm';
+  $form['actions']['edit-reset']['#attributes']['class'][] = 'unit-button unit-button--light text-sm';
 }
 
 /**
@@ -395,6 +396,7 @@ function octopus_form_user_login_form_alter(&$form, FormStateInterface $form_sta
 function octopus_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] == 'views-exposed-form-content-announcement-block-1') {
     $form['actions']['submit']['#attributes']['class'][] = 'mt-6';
+    $form['actions']['reset']['#attributes']['class'][] = 'unit-button unit-button--light text-sm';
   }
 }
 
@@ -517,8 +519,6 @@ function octopus_theme_suggestions_views_view(array $variables) {
  * Implements template_preprocess_image().
  */
 function octopus_preprocess_image(&$variables) {
-  //if ($variables['style_name'] == 'max_1300x1300') {
-    // Set lazy attribute.
-    $variables['attributes']['loading'][] = 'lazy';
-  //}
+  // Set lazy attribute for ALL images.
+  $variables['attributes']['loading'][] = 'lazy';
 }
