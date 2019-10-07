@@ -93,7 +93,7 @@
 
 <article{{ attributes.addClass(classes, layout_classes) }}>
   {% if content.field_announcement_feature_image['0'] is not empty %}
-    <a href="{{ url }}" class="ubc-card__media bg-cover min-h-64" style="background-image: url({{ bg_img }});" title="{{ node.title.value }}"></a>
+    <a href="{{ url }}" class="ubc-card__media bg-cover min-h-64" style="background-image: url({{ bg_img }});"></a>
   {% endif %}
   <div class="ubc-card__content">
     {{ title_prefix }}
