@@ -94,7 +94,7 @@ USE content.field_event_image['0']#}
 
 <article{{ attributes.addClass(classes, layout_classes) }}>
   {% if content.field_event_image['0'] is not empty %}
-    <a href="{{ url }}" class="ubc-card__media bg-cover min-h-64" style="background-image: url({{ bg_img }});" title="{{ node.title.value }}"></a>
+    <a href="{{ url }}" class="ubc-card__media bg-cover min-h-64" style="background-image: url({{ bg_img }});" ></a>
   {% endif %}
   <div class="ubc-card__content">
 
@@ -125,7 +125,7 @@ USE content.field_event_image['0']#}
     {% endif %}
     <p>{{ tagless_body|striptags }}</p>
     <p>
-      <a href="{{ url }}" title="Read the full article" class="unit-button unit-button--simple unit-button--has-icon-right unit-button--animate-icon">Explore <svg role="presentation" class="unit-button__icon" viewBox="0 0 64 64"><use xlink:href="#icon-arrow-circle"></use></svg></a>
+      <a href="{{ url }}" class="unit-button unit-button--simple unit-button--has-icon-right unit-button--animate-icon">Explore <svg role="presentation" class="unit-button__icon" viewBox="0 0 64 64"><use xlink:href="#icon-arrow-circle"></use></svg></a>
     </p>
   </div>
 

@@ -89,7 +89,7 @@ USE content.field_event_image['0']#}
      {{ content.body }}
 {% endset %}
 
-<a{{ attributes.addClass(classess) }} href="{{ url }}" rel="bookmark" title="{{ node.title.value }}">
+<a{{ attributes.addClass(classess) }} href="{{ url }}" rel="bookmark">
   {% if content.field_event_image['0']|render %}
   <div class="ubc-card__media min-h-64 bg-cover" style="background-image: url({{ bg_img }});">
   </div>
