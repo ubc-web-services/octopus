@@ -1,52 +1,54 @@
-<header class="flex bg-grey-50 border-b-2 border-grey-200 items-center sticky w-full z-50 top-0">
-  <a href="#" title="The University of British Columbia" class="inline-block bg-ubc-blue px-3 py-4 md--py-6"><span
-      class="visually-hidden">The Uniiversity of British Columbia</span>
-    <svg role="presentation" class="inline-block h-8 w-8 md--h-16 md--w-16 text-white">
-      <use xlink:href="#logo-ubc" />
-    </svg>
-  </a>
-  <h2 class="text-base sm--text-lg mt-0 px-3 flex-1">
-    <a href="{{ base_path }}" class="no-underline">
-      {% if faculty_option == '' %}
-      <span id="ubc-faculty" class="block text-sm">{{ faculty_name }}</span>
-      {% endif %}
-      {{ unit_name }}
-    </a>
-  </h2>
-  <div class="no-grow text-right pr-4">
-    <form method="get" action="https://www.ubc.ca/search/refine/">
-      {#}
-      <label class="text-xs uppercase">Search</label>
-      {% if searchlabel_option %}
-      <input type="text" name="q" placeholder="{{ searchlabel_option }}" class="inline-block mr-2" style="width:auto;">
-      {% else %}
-      <input type="text" name="q" placeholder="Search this website" class="inline-block w-auto mr-2" style="width:auto;">
-      {% endif %}
-      <input type="hidden" name="label" value="Search" />
-      {% if searchdomain_option %}
-      <input type="hidden" name="site" value="{{ searchdomain_option }}" />
-      {% else %}
-      <input type="hidden" name="site" value="*.ubc.ca" />
-      {% endif %}
-      #}
-      <button type="submit" class="text-xs uppercase inline-block">Search</button>
-      <svg role="presentation" class="inline-block h-8 w-8 text-ubc-blue">
-        <use xlink:href="#icon-search" />
-      </svg>
-    </form>
-    {#<div id="autocomplete" class="autocomplete">
-      <input class="autocomplete-input"
-        placeholder="Search Wikipedia"
-        aria-label="Search Wikipedia">
-      <ul class="autocomplete-result-list"></ul>
-    </div>#}
-  </div>
-  <div class="text-right no-grow px-4">
-    <a class="text-ubc-blue hover--no-underline hover--text-black" href="#" title="Site menu">
-      <span class="text-xs">MENU</span>
-      <svg role="presentation" class="inline-block h-8 w-8">
-        <use xlink:href="#icon-menu" />
+<header class="js-header-scroll bg-grey-50 border-b-2 border-grey-200 sticky w-full z-50 top-0">
+  <div class="container flex items-center mx-auto px-4">
+    <a href="#" title="The University of British Columbia" class="inline-block bg-ubc-blue px-3 py-4 md--py-6"><span
+        class="visually-hidden">The Uniiversity of British Columbia</span>
+      <svg role="presentation" class="inline-block h-8 w-8 md--h-16 md--w-16 text-white">
+        <use xlink:href="#logo-ubc" />
       </svg>
     </a>
+    <h2 class="text-base sm--text-lg mt-0 px-3 flex-1">
+      <a href="{{ base_path }}" class="no-underline">
+        {% if faculty_option == '' %}
+        <span id="ubc-faculty" class="block text-sm">{{ faculty_name }}</span>
+        {% endif %}
+        {{ unit_name }}
+      </a>
+    </h2>
+    <div class="no-grow text-right pr-4">
+      <form method="get" action="https://www.ubc.ca/search/refine/">
+        {#}
+        <label class="text-xs uppercase">Search</label>
+        {% if searchlabel_option %}
+        <input type="text" name="q" placeholder="{{ searchlabel_option }}" class="inline-block mr-2" style="width:auto;">
+        {% else %}
+        <input type="text" name="q" placeholder="Search this website" class="inline-block w-auto mr-2" style="width:auto;">
+        {% endif %}
+        <input type="hidden" name="label" value="Search" />
+        {% if searchdomain_option %}
+        <input type="hidden" name="site" value="{{ searchdomain_option }}" />
+        {% else %}
+        <input type="hidden" name="site" value="*.ubc.ca" />
+        {% endif %}
+        #}
+        <button type="submit" class="text-xs uppercase inline-block">Search</button>
+        <svg role="presentation" class="inline-block h-8 w-8 text-ubc-blue">
+          <use xlink:href="#icon-search" />
+        </svg>
+      </form>
+      {#<div id="autocomplete" class="autocomplete">
+        <input class="autocomplete-input"
+          placeholder="Search Wikipedia"
+          aria-label="Search Wikipedia">
+        <ul class="autocomplete-result-list"></ul>
+      </div>#}
+    </div>
+    <div class="text-right no-grow px-4">
+      <a class="text-ubc-blue hover--no-underline hover--text-black" href="#" title="Site menu">
+        <span class="text-xs">MENU</span>
+        <svg role="presentation" class="inline-block h-8 w-8">
+          <use xlink:href="#icon-menu" />
+        </svg>
+      </a>
+    </div>
   </div>
 </header>
