@@ -4,9 +4,14 @@
  * Approximate CLF's style in CKEditor instances on the Drupal back-end.
  */
 
-/* Adjust body padding */
+/* Adjust body padding and focus styles */
 body {
   padding: 1rem;
+}
+
+body:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* Captions */
