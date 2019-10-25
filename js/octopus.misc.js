@@ -34,6 +34,33 @@
         return this;
       };
 
+      var isTouch = window.DocumentTouch && document instanceof DocumentTouch;
+
+      function scrollHeader() {
+      // Has scrolled class on header
+        var zvalue = $(document).scrollTop();
+        if ( zvalue > 75 )
+          $(".js-header-scroll").addClass("is-scrolled");
+        else
+          $(".js-header-scroll").removeClass("is-scrolled");
+      }
+
+      scrollHeader();
+
+      // Scroll Events
+      if (!isTouch){
+        $(document, context).once().scroll(function() {
+          scrollHeader();
+        });
+      };
+
+      // Touch scroll
+      $(document, context).once().on({
+        'touchmove': function(e) {
+          scrollHeader();
+        }
+      });
+
       // show hidden content when trigger is clicked
       $('.js-reveal__trigger', context).on('click', function (e) {
         e.preventDefault();
