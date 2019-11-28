@@ -456,3 +456,21 @@ input[type="search"] {
   height: 100%;
   background: linear-gradient(180deg,#002145 0,rgba(0,33,69,0) 55%);
 }
+
+/* style the node preview form */
+.node-preview-container {
+  background-color: rgba(255, 255, 255, .5);
+  border-bottom: 1px #003a79 solid;
+}
+
+.node-preview-backlink {
+  display: inline-block;
+  padding: .5rem 1rem;
+  background-color: rgba(0, 58, 121, .85);
+  border-color: #003A79;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: .25rem;
+  margin: .5rem 0;
+  color: #fff
+}
