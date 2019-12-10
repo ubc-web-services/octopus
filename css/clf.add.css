@@ -284,3 +284,51 @@ blockquote p:first-child {
 .z-10 {
   z-index: 1;
 }
+
+.js-header-scroll.is-scrolled {
+  height: 4rem;
+}
+
+.text-top-right {
+  text-align: right;
+}
+
+.text-bottom-right {
+  text-align: right;
+  align-self: flex-end;
+}
+
+.text-bottom-left {
+  align-self: flex-end;
+}
+
+.paragraph--type--feature-image .has-gradient::after,
+.ubc-card--image-w-overlay .ubc-card__media::after {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left:0;
+  background:linear-gradient(180deg,rgba(0,33,69,0) 2%,#002145);
+}
+
+.paragraph--type--feature-image.text-top-right .has-gradient::after,
+.paragraph--type--feature-image.text-top-left .has-gradient::after,
+.ubc-card--image-w-overlay .ubc-card__media.text-top-right::after
+.ubc-card--image-w-overlay .ubc-card__media.text-top-left::after, {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left:0;
+  background:linear-gradient(180deg,#002145 0,rgba(0,33,69,0) 98%);
+}
+
+@media (min-width: 1280px) {
+  .w-narrow {
+    max-width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
