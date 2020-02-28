@@ -82,6 +82,10 @@
   padding-bottom: 2rem;
 }
 
+.page-title {
+  display: none;
+}
+
 @media (min-width: 640px) {
 
   .sm--max-w-md {
@@ -94,11 +98,8 @@
 
 <main id="unit-content" class="h-screen v-screen flex bg-ubc-blue" style="height: 100vh;width: 100vw;">
   <div class="mx-auto self-center bg-grey-50 px-16 py-8 rounded shadow-lg sm--max-w-md max-w-full">
-    <svg role="presentation" class="h-24 mb-4 block mx-auto text-ubc-blue">
-      <use xlink:href="#logo-ubc"></use>
-    </svg>
 
-    <h1 class="text-grey-500 pb-4 text-2xl font-normal">Sign in</h1>
+    <h1 class="text-grey-500 pb-4 text-2xl font-normal text-hug">Sign in</h1>
     <a href="/saml_login?destination=user" class="unit-button unit-button--dark unit-button--block cwl-login rounded-sm text-lg">Sign in with CWL</a>
     <p class="help-block text-base pb-8 text-grey-500">Sign into {{ unit_name }} using your UBC Campus Wide Login (CWL) account. You will be taken to another service to enter your credentials and then returned to this site.</p>
     <hr class="border-b mb-8" />
