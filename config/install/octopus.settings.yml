@@ -17,6 +17,7 @@ favicon:
 
 clf_unitname: 'Unit Name'
 clf_local: 1
+cwl_site: 0
 clf_navoption: 0
 clf_theme_colour: 'bw'
 clf_unit_campus: ''
