@@ -38,9 +38,9 @@
       <svg role="presentation" class="message__icon">
         <use xlink:href="#icon-alert"></use>
       </svg>
-      <div class="message__content"
+      <div class="message__content">
       {% if status_headings[type] %}
-        <h4 class="alert-heading">{{ status_headings[type] }}</h4>
+        <h4 class="alert-heading text-hug">{{ status_headings[type] }}</h4>
       {% endif %}
       {% if messages|length > 1 %}
         <ul class="message__list">

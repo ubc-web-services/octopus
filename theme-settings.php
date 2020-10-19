@@ -87,6 +87,17 @@ function octopus_form_system_theme_settings_alter(&$form, FormStateInterface &$f
     '#default_value' => theme_get_setting('clf_local'),
   ];
 
+  $form['general']['cwl_site'] = [
+    '#type' => 'checkbox',
+    '#title' => t('<strong>Display a CWL Login option</strong>', [
+      ':url' => '/user',
+    ]),
+    '#description' => t('<strong>Check this option if the site should display a CWL Login option on the <a href=":url" target="_blank">drupal login page</a>.</strong><br />Note that this does not implement CWL protection, but simply adds the form to the login page.', [
+      ':url' => '/user',
+    ]),
+    '#default_value' => theme_get_setting('cwl_site'),
+  ];
+
   // UBC unit information.
   $form['unit'] = [
     '#type' => 'details',
