@@ -7,7 +7,7 @@ dependencies:
     - system
   theme:
     - octopus
-id: breadcrumbs
+id: octopus_breadcrumbs
 theme: octopus
 region: breadcrumb
 weight: -2

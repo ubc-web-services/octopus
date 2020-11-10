@@ -34,7 +34,7 @@
   %}
   {{ attach_library('octopus/system-message') }}
   <div aria-label="{{ status_headings[type] }}"{{ attributes.setAttribute('class', classes)|without('role', 'aria-label').setAttribute('role', 'status').setAttribute('aria-live', 'polite') }}>
-      <a class="message__close" data-dismiss="message" href="#">&times;</a>
+      <button class="message__close" data-dismiss="message">&times;</button>
       <svg role="presentation" class="message__icon">
         <use xlink:href="#icon-alert"></use>
       </svg>

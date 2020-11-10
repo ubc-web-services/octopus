@@ -7,7 +7,7 @@ dependencies:
     - system
   theme:
     - octopus
-id: messages
+id: octopus_messages
 theme: octopus
 region: help
 weight: 0

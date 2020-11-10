@@ -7,7 +7,7 @@ dependencies:
     - system
   theme:
     - octopus
-id: mainpagecontent
+id: octopus_mainpagecontent
 theme: octopus
 region: content
 weight: 0

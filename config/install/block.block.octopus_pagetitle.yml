@@ -7,7 +7,7 @@ dependencies:
     - system
   theme:
     - octopus
-id: pagetitle
+id: octopus_pagetitle
 theme: octopus
 region: heading
 weight: -3

@@ -5,7 +5,7 @@ status: true
 dependencies:
   theme:
     - octopus
-id: tabs
+id: octopus_tabs
 theme: octopus
 region: help
 weight: -1

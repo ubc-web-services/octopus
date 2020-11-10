@@ -62,50 +62,46 @@
 {% set secondary_attributes = create_attribute() %}
 {% set prefooter_attributes = create_attribute() %}
 
-{% if navigation_placement_drawer %}
-<div id="pushed-content" class="{{ navigation_placement }}">
-{% endif %}
+<noscript>
+  <strong>We're sorry but this site doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+</noscript>
 
-{% include '@octopus/includes/header.html.twig' %}
+<div id="main-content">
 
-<main id="unit-content" style="background-image: url(/{{ directory }}/img/404.jpg);background-repeat: no-repeat;background-size: cover;">
-  <div class="container mx-auto p-4">
+  {% include '@octopus/includes/header.clf7.html.twig' %}
+
+  <main id="unit-content" style="background-image: url(/{{ directory }}/img/404.jpg); min-height: 50vh;" class="bg-center bg-no-repeat bg-cover">
+    <div class="container mx-auto p-4">
 
 
-    {% if page.heading %}
-    {{ page.heading }}
-    {% endif %}
+      {% if page.heading %}
+      {{ page.heading }}
+      {% endif %}
 
-    {% if page.help %}
-    <div id="help-region">{{ page.help }}</div>
-    {% endif %}
+      {% if page.help %}
+      <div id="help-region">{{ page.help }}</div>
+      {% endif %}
 
-    <div>
+      <div>
 
-      <div{{ maincontent_attributes.addClass('text-center', 'text-white', 'pb-8').setAttribute('id', 'main-content') }}>
-        <section class="section">
-          {% if page.highlighted %}
-          <div id="highlighted">{{ page.highlighted }}</div>
-          {% endif %}
-          <h1>401</h1>
-          {{ page.content }}
-        </section>
+        <div{{ maincontent_attributes.addClass('text-center', 'text-white', 'pb-8').setAttribute('id', 'main-content') }}>
+          <section class="section">
+            {% if page.highlighted %}
+            <div id="highlighted">{{ page.highlighted }}</div>
+            {% endif %}
+            <h1>401</h1>
+            {{ page.content }}
+          </section>
+        </div>
+
       </div>
 
     </div>
+  </main>
 
-  </div>
-</main>
+  {% include '@octopus/includes/totop-button.html.twig' %}
 
-{% include '@octopus/includes/footer.html.twig' %}
-
-{% if navigation_placement_drawer %}
 </div>
-<section id="off-canvas-drawer--primary" class="off-canvas-drawer {{ navigation_placement }}">
-  <button class="drawer__close drawer-toggle--primary">&times; CLOSE MENU</button>
-  {{ page.drawer }}
-</section>
-<div id="off-canvas-mask" class="drawer-toggle--primary"></div>
-{% endif %}
 
+{% include '@octopus/includes/footer.clf7.html.twig' %}
 {% include '@octopus/includes/svg.html.twig' %}

@@ -7,7 +7,7 @@ dependencies:
     - help
   theme:
     - octopus
-id: help
+id: octopus_help
 theme: octopus
 region: help
 weight: -5
